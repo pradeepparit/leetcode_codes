@@ -1,0 +1,60 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def findNode(self, root, start):
+        if root == None:
+            return
+        if root.val == start:
+            return root
+        else:
+            return self.findNode(root.left, start) or self.findNode(root.right, start)
+
+    def markParents(self, root, parentMap):
+        queue = deque()
+        queue.append(root)
+        while queue:
+            n = len(queue)
+            for i in range(n):
+                curr = queue.popleft()
+                if curr.left != None:
+                    parentMap[curr.left] = curr
+                    queue.append(curr.left)
+                if curr.right != None:
+                    parentMap[curr.right] = curr
+                    queue.append(curr.right)
+        
+    def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
+        # 1. Get the target Node first
+        target = self.findNode(root, start)
+        # 2. make the parentMap as done in previous question i.e all Nodes at distance k using the bfs traversal
+        parentMap = defaultdict()   # {child : parent}
+        self.markParents(root, parentMap)
+        queue = deque()
+        queue.append(target)
+        visited = defaultdict()
+        visited[target] = True
+        time = 0
+        # 3. use a second bfs traversal to mark them all as visited and each time increase the time += 1
+        while queue:
+            n = len(queue)
+            
+            for i in range(n):
+                curr = queue.popleft()
+                if curr.left != None and visited.get(curr.left) == None:
+                    visited[curr.left] = True
+                    queue.append(curr.left)
+                if curr.right != None and visited.get(curr.right) == None:
+                    visited[curr.right] = True
+                    queue.append(curr.right)
+                if parentMap.get(curr) != None and visited.get(parentMap.get(curr)) == None:
+                    visited[parentMap.get(curr)] = True
+                    queue.append(parentMap.get(curr))
+            # 4. After marking all of them , time is incremented to 1
+            time += 1
+        
+        # Since we dont count the target Node time so final time is decremented by 1
+        return time - 1   
