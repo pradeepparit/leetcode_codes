@@ -1,0 +1,16 @@
+class Solution:
+    def findWinners(self, matches: List[List[int]]) -> List[List[int]]:
+        loosers = defaultdict(int)
+        
+        for match in matches:
+            loosers[match[0]] += 0
+            loosers[match[1]] += 1
+        
+        lost_none, lost_one  = [], []
+
+        for w, c in loosers.items():
+            if c == 0:
+                lost_none.append(w)
+            if c == 1:
+                lost_one.append(w)
+        return [sorted(lost_none), sorted(lost_one)]
