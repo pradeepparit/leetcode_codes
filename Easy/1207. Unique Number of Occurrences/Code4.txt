@@ -1,0 +1,9 @@
+from collections import Counter
+class Solution:
+    def uniqueOccurrences(self, arr: List[int]) -> bool:
+        o1 = list(Counter(arr).values())
+        o2 = list(set(o1))
+        if len(o1) == len(o2):
+            return all(ele in o1 for ele in o2)
+        else:
+            return False
