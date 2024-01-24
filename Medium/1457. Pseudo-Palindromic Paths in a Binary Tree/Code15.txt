@@ -1,0 +1,50 @@
+class Solution:
+    def pseudoPalindromicPaths(self, root: Optional[TreeNode]) -> int:
+        # Global variable to store the number of pseudo-palindromic paths
+        global ans
+        ans = 0
+        
+        # List to store the frequency of each digit (0 to 9)
+        freq = [0]*10
+
+        # Function to check if a pseudo-palindromic path is possible based on frequency
+        def palindromePossible(freq):
+            count = 0
+            for i in freq:
+                if i % 2 == 1:
+                    count += 1
+            return count <= 1
+
+        # Recursive function for depth-first traversal
+        def traversal(root, freq):
+            # Base case: If the node is a leaf, do computations
+            if root.left == None and root.right == None:
+                # Increment frequency for the current node's value
+                freq[root.val] += 1
+                
+                # Check if a pseudo-palindromic path is possible and update global ans
+                if palindromePossible(freq):
+                    global ans
+                    ans += 1
+                
+                # Decrement frequency back after the computation
+                freq[root.val] -= 1
+                return
+
+            # Increment frequency for the current node's value
+            freq[root.val] += 1
+            
+            # Recursive call for left and right children, if they exist
+            if root.left:
+                traversal(root.left, freq)
+            if root.right:
+                traversal(root.right, freq)
+
+            # Decrement frequency back after the recursive calls
+            freq[root.val] -= 1
+
+        # Start the traversal from the root with the initialized frequency list
+        traversal(root, freq)
+        
+        # Return the final count of pseudo-palindromic paths
+        return ans
