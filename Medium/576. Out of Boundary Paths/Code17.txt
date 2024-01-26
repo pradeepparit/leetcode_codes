@@ -1,0 +1,22 @@
+class Solution:
+    def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: int) -> int:
+
+
+
+        from functools import lru_cache
+
+        @lru_cache(None)
+        def countPaths(curr_row, curr_col, remaining_steps=maxMove):
+            if curr_row not in range(m) or curr_col not in range(n):
+                return 1
+            if remaining_steps == 0:
+                return 0
+
+            path_count, delta_row, delta_col = 0, 1, 0
+            for _ in range(4):
+                path_count += countPaths(curr_row + delta_row, curr_col + delta_col, remaining_steps - 1)
+                delta_row, delta_col = delta_col, -delta_row
+
+            return path_count
+
+        return countPaths(startRow, startColumn) % 1000000007
