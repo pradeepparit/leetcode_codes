@@ -1,0 +1,10 @@
+import collections
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        s1 = list(s)
+        count = collections.Counter(s1)
+        for i in count.values():
+            if i == 1:
+                k = list(count.keys())[list(count.values()).index(i)]
+                return s1.index(k)
+        return -1
