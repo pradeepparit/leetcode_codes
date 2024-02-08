@@ -1,0 +1,21 @@
+from itertools import product
+class Solution:
+    def numSquares(self, n):
+        sq = [-1]
+        i = 1
+        while sq[-1] <= n:
+            sq.append(i * i)
+            i += 1
+        sq = sq[1:]
+        total = 0
+        i = 1
+        while True:
+            for ele in product(sq,repeat = i):
+
+                if sum(ele) == n:
+                    return len(ele)
+            i += 1
+        
+
+        return 0
+        
