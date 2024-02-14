@@ -1,0 +1,17 @@
+class Solution:
+    def rearrangeArray(self, nums: List[int]) -> List[int]:
+        posQ = deque()
+        negQ = deque()
+        solution = []
+
+        for num in nums:
+            if num < 0:
+                negQ.append(num)
+            else:
+                posQ.append(num)
+
+        while posQ and negQ:
+            solution.append(posQ.popleft())
+            solution.append(negQ.popleft())
+
+        return solution
