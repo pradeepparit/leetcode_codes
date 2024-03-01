@@ -1,0 +1,13 @@
+class Solution:
+    def maximumOddBinaryNumber(self, s: str) -> str: 
+        res=""
+        c=s.count('1') 
+        while True: 
+            if c==1 and len(res)==len(s)-1: 
+                res+="1" 
+                return res 
+            elif c>1: 
+                res="1"+res 
+                c-=1
+            else: 
+                res=res+"0"
